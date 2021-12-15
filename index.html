@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ <meta charset="utf-8">
+ <title>Sample App</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+ <h1>Sample App</h1>
+
+ <ul class="list" id="list"></ul>
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+
+
+
+    //Change the Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsspz5jqWH_l8g84Prk_RSeD6zmRy1DcM",
+      authDomain: "esp832-8253e.firebaseapp.com",
+      projectId: "esp832-8253e",
+      storageBucket: "esp832-8253e.appspot.com",
+      messagingSenderId: "988301417663",
+      appId: "1:988301417663:web:38e286d17dad582cdd3a0a",
+      measurementId: "G-TRBTR89MFJ"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    //change name to firebase collection name
+  const col = collection(db, 'name');
+  const snapshot = await getDocs(col);
+  const list = snapshot.docs.map(doc => doc.data());
+
+
+
+  const nameList = document.getElementById('list');
+  list.forEach(element => {
+    let $li = document.createElement("li");
+    $li.innerHTML = element.text;
+    nameList.append($li);
+  });
+  
+  </script>
+ <script type="text/javascript" src="index.js"></script>
+ </body>
+</html>
