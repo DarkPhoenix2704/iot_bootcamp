@@ -7,11 +7,21 @@
  </head>
  <body>
  <h1>Sample App</h1>
+<h3>Sensor Data 01</h3>
+<p id='sensor01'>
 
- <ul class="list" id="list"></ul>
+</p> 
+<h3>Sensor Data 02</h3>
+<p id='sensor02'>
+
+</p> 
+<h3>Sensor Data 03</h3>
+<p id='sensor03'>
+
+</p> 
  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
 
 
@@ -28,22 +38,15 @@
   
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    //change name to firebase collection name
-  const col = collection(db, 'name');
-  const snapshot = await getDocs(col);
-  const list = snapshot.docs.map(doc => doc.data());
+    const db = getDatabase();
+    const data = ref(db, '/');
+    onValue(data, (snapshot) => {
+        const sensorData = snapshot.val();
+        document.getElementById('sensor01').innerText = sensorData.sensor1;
+        document.getElementById('sensor02').innerText = sensorData.sensor2;
+        document.getElementById('sensor03').innerText = sensorData.sensor3;
+    });
 
-
-
-  const nameList = document.getElementById('list');
-  list.forEach(element => {
-    let $li = document.createElement("li");
-    $li.innerHTML = element.text;
-    nameList.append($li);
-  });
-  
   </script>
  <script type="text/javascript" src="index.js"></script>
  </body>
